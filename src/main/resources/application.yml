@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: Vendas
+  datasource:
+    url: jdbc:postgresql://${DATABASE_URL:localhost}:5432/vendas
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+  messages:
+    encoding: UTF-8
+  security:
+    oauth2:
+      client:
+        provider:
+          external:
+            issuer-uri: http://localhost:7080/realms/vendas
+        registration:
+          external:
+            provider: vendas
+            client-name: login-app
+            client-id: login-app
+            client-secret: d6ghhMPXbJxZNGbXYpvA7NQlGAbdNhiR
+            scope:
+              - openid
+              - offline_access
+              - profile
+            authorization-grant-type: authorization_code
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core:
+            JdbcTemplate: DEBUG
+            StatementCreatorUtils: TRACE
+server:
+  port: ${PORT:3000}
