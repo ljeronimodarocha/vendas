@@ -25,7 +25,7 @@ public class ProdutoController {
     private ProdutoServices services;
 
     @GetMapping
-    public ResponseEntity<List<Produto>> listar(@RequestBody ProdutoRequest produto) {
+    public ResponseEntity<List<Produto>> listar(ProdutoRequest produto) {
         return ResponseEntity.ok().body(services.listar(produto));
     }
 
