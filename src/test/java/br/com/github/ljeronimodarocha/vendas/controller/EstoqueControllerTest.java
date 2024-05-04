@@ -22,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +42,9 @@ class EstoqueControllerTest extends MocksEstoque {
 
     @InjectMocks
     private EstoqueController controller;
+
+    @MockBean
+    private JwtDecoder jwtDecoder;
 
     @MockBean
     private EstoqueServices services;
@@ -60,8 +66,11 @@ class EstoqueControllerTest extends MocksEstoque {
     }
 
     @Test
+    @WithMockUser(roles = "user")
     void deveRetornarListaEstoque() throws Exception {
-        this.mockMvc.perform(get("/api/estoque").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc
+                .perform(get("/api/estoque").contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
 
@@ -71,7 +80,8 @@ class EstoqueControllerTest extends MocksEstoque {
     @Test
     void deveSalvarNovoEstoque() throws Exception {
         this.mockMvc.perform(post("/api/estoque").contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(mockEstoqueRequest())))
+                .content(mapper.writeValueAsString(mockEstoqueRequest()))
+                .with(SecurityMockMvcRequestPostProcessors.jwt()))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$").exists());
         verify(services, times(1)).salvar(any());
@@ -81,6 +91,7 @@ class EstoqueControllerTest extends MocksEstoque {
     void deveAtualizarEstoque() throws Exception {
         this.mockMvc.perform(
                 put("/api/estoque/{id}", 1L)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(mockEstoqueRequest())))
                 .andExpect(status().isNoContent())
@@ -92,6 +103,7 @@ class EstoqueControllerTest extends MocksEstoque {
     void deveExcluirEstoque() throws Exception {
         this.mockMvc.perform(
                 delete("/api/estoque/{id}", 1L)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andExpect(jsonPath("$").doesNotExist());

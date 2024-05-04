@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,7 +62,8 @@ class ProdutoControllerTest extends MocksProduto {
 
     @Test
     void deveRetornarListaProdutos() throws Exception {
-        this.mockMvc.perform(get("/api/produtos").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/api/produtos").contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.jwt()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
 
@@ -71,6 +73,7 @@ class ProdutoControllerTest extends MocksProduto {
     @Test
     void deveSalvarNovoProduto() throws Exception {
         this.mockMvc.perform(post("/api/produtos").contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.jwt())
                 .content(mapper.writeValueAsString(mockProdutoRequest())))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$").exists());
@@ -81,6 +84,7 @@ class ProdutoControllerTest extends MocksProduto {
     void deveAtualizarProduto() throws Exception {
         this.mockMvc.perform(
                 put("/api/produtos/{id}", 1L)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(mockProdutoRequest())))
                 .andExpect(status().isNoContent())
@@ -92,6 +96,7 @@ class ProdutoControllerTest extends MocksProduto {
     void deveExcluirProduto() throws Exception {
         this.mockMvc.perform(
                 delete("/api/produtos/{id}", 1L)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andExpect(jsonPath("$").doesNotExist());
