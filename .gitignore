@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### SSH ###
+.ssh/*
+
+### JENKINS ###
+/jenkins_compose
+
+### SONAR ###
+sonarqube/
