@@ -9,8 +9,8 @@ pipeline {
                 withSonarQubeEnv(installationName: 'First'){
                     sh 'mvn clean verify sonar:sonar \
                         -Dsonar.projectKey=Teste \
-                        -Dsonar.host.url=http://sonarqube:9001 \
-                        -Dsonar.login=sqp_7e7128e4cfcb3655aced4bcf12a02255b6d885b4'
+                        -Dsonar.host.url=http://sonarqube:9000 \
+                        -Dsonar.login=sqa_96ad088e81d382d7f0c06bad4e63d76c84612a06'
                 }
             }
         }
