@@ -10,7 +10,7 @@ pipeline {
                     sh 'mvn clean verify sonar:sonar \
                         -Dsonar.projectKey=Teste \
                         -Dsonar.host.url=http://sonarqube:9001 \
-                        -Dsonar.login=sqp_fac72501b99112c4ad181d52b848072a8e0c18e1'
+                        -Dsonar.login=sqp_7e7128e4cfcb3655aced4bcf12a02255b6d885b4'
                 }
             }
         }
