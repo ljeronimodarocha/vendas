@@ -13,7 +13,8 @@ pipeline {
                         -Dsonar.sources=. \
                         -Dsonar.login=sqa_96ad088e81d382d7f0c06bad4e63d76c84612a06 \
                         -Dsonar.filesize.limit=100 \
-                        -Dsonar.tests.inclusions=src/test/**'
+                        -Dsonar.tests.inclusions=src/test/** \
+                        -Pcoverage'
                 }
             }
         }
