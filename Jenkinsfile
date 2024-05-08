@@ -13,13 +13,9 @@ pipeline {
                         -Dsonar.login=sqa_96ad088e81d382d7f0c06bad4e63d76c84612a06'
                 }
             }
-        }
-        stage('Quality Gate'){
-            steps {
-              def qualitygate = waitForQualityGate()
-                if (qualitygate.status != "OK") {
-                    error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
-                }
+            def qualitygate = waitForQualityGate()
+            if (qualitygate.status != "OK") {
+                error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
             }
         }
     }
