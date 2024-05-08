@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Scan') { 
             steps { 
-              withSonarQubeEnv(installationName: 'First'){
+              withSonarQubeEnv(installationName: 'Sonar'){
                     sh 'mvn clean verify sonar:sonar \
                         -Dsonar.projectKey=Teste \
                         -Dsonar.host.url=http://sonarqube:9000 \
