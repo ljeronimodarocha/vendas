@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Scan') { 
             steps { 
-                withSonarQubeEnv(){
+              withSonarQubeEnv(installationName: 'First'){
                     sh 'mvn clean verify sonar:sonar \
                         -Dsonar.projectKey=Teste \
                         -Dsonar.host.url=http://sonarqube:9000 \
@@ -14,6 +14,12 @@ pipeline {
                 }
             }
         }
-      
+        stage ("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
     }
 }
