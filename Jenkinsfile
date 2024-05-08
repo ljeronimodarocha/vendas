@@ -12,7 +12,7 @@ pipeline {
                         -Dsonar.host.url=http://sonarqube:9000 \
                         -Dsonar.sources=. \
                         -Dsonar.login=sqa_96ad088e81d382d7f0c06bad4e63d76c84612a06 \
-                        -Dsonar.filesize.limit= *'
+                        -Dsonar.filesize.limit= 100'
                 }
             }
         }
