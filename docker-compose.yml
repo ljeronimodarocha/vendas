@@ -67,6 +67,7 @@ services:
     image: jenkins/jenkins:jdk21
     container_name: jenkins
     privileged: true
+    hostname: jenkins
     user: root
     depends_on: 
       - sonarqube
