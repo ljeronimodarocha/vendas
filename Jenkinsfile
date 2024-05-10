@@ -15,12 +15,12 @@ pipeline {
                         -Dsonar.filesize.limit=100 \
                         -Dsonar.tests.inclusions=src/test/**'
                 }
-                sleep(20)
+                sleep(10)
             }
         }
         stage ("Quality Gate") {
             steps {
-                timeout(time: 20, unit: 'SECONDS') {
+                timeout(time: 30, unit: 'SECONDS') {
                     waitForQualityGate abortPipeline: true
                 }
             }
