@@ -15,6 +15,7 @@ pipeline {
                         -Dsonar.filesize.limit=100 \
                         -Dsonar.tests.inclusions=src/test/**'
                 }
+                sleep(20)
             }
         }
         stage ("Quality Gate") {
